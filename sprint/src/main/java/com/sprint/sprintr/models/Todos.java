@@ -1,5 +1,7 @@
 package com.sprint.sprintr.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 
 @Entity
@@ -11,7 +13,6 @@ public class Todos {
     private long todoid;
 
 
-
     @Column(nullable = false)
     private String description;
     private boolean completed = false;
@@ -19,14 +20,14 @@ public class Todos {
 
     @ManyToOne
     @JoinColumn(name = "userid", nullable = false)
+    @JsonIgnoreProperties(value = "todos")
     private Users user;
 
     public Todos() {
     }
 
-    public Todos(String description, boolean completed, Users user) {
+    public Todos(Users user, String description) {
         this.description = description;
-        this.completed = completed;
         this.user = user;
     }
 
@@ -61,6 +62,7 @@ public class Todos {
     public void setUser(Users user) {
         this.user = user;
     }
+
 
     @Override
     public String toString() {

@@ -17,23 +17,25 @@ public class Users {
 
     @Column(nullable = false, unique = true)
     private String username;
-    private String primaryemail;
     private String password;
+    private String primaryemail;
 
     //----------------------all relationships-----------------//
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnoreProperties(value = "user")
+    @Transient
+    @JsonIgnoreProperties(value = "user", allowSetters = true)
     private List<Todos> todos = new ArrayList<>();
+
+
 
 
     public Users() {
     }
 
-    public Users(String username, String primaryemail, String password, List<Todos> todos) {
+    public Users(String username, String password, String primaryemail) {
         this.username = username;
-        this.primaryemail = primaryemail;
         this.password = password;
-        this.todos = todos;
+        this.primaryemail = primaryemail;
     }
 
     public long getUserid() {
@@ -75,6 +77,7 @@ public class Users {
     public void setTodos(List<Todos> todos) {
         this.todos = todos;
     }
+
 
     @Override
     public String toString() {
